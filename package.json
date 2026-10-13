@@ -1,0 +1,60 @@
+{
+  "name": "hoanghuan631991",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Send to Xteink: drop a file, get an EPUB in your personal OPDS catalog, pull it on the reader from anywhere",
+  "scripts": {
+    "dev": "npm run build && wrangler dev",
+    "build": "node scripts/build-web.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:hosted": "npm run build && wrangler deploy -c wrangler.hosted.toml",
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc -noEmit && tsc -noEmit -p tsconfig.test.json",
+    "test:e2e": "npm run build && node scripts/e2e.mjs",
+    "build:node": "npm run build && node scripts/build-node.mjs",
+    "start:node": "node dist/server.mjs",
+    "test:e2e:node": "npm run build:node && node scripts/e2e.mjs --node",
+    "build:desktop": "npm run build && node scripts/build-desktop.mjs",
+    "test:e2e:desktop": "npm run build:desktop && node scripts/e2e.mjs --desktop"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260922.1",
+    "@types/node": "^26.6.2",
+    "@types/turndown": "^5.0.6",
+    "@xmldom/xmldom": "^0.9.12",
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.136.2"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "fflate": "^0.8.3",
+    "foliate-js": "^1.0.1",
+    "jszip": "^3.10.2",
+    "marked": "^18.0.14",
+    "pdfjs-dist": "^6.3.289",
+    "turndown": "^7.2.4"
+  },
+  "cloudflare": {
+    "bindings": {
+      "SIGNUP_CODE": {
+        "description": "Mã mời để tạo tài khoản — tự đặt một từ bất kỳ, nhập lúc đăng ký lần đầu. Invite code required to sign up; pick any word."
+      },
+      "BOOKS": {
+        "description": "Nơi lưu EPUB (KV). Để Cloudflare tự tạo. Stores your EPUBs."
+      },
+      "DB": {
+        "description": "Tài khoản và danh mục sách (D1). Để Cloudflare tự tạo. Accounts and catalog."
+      },
+      "CATALOG_TITLE": {
+        "description": "Tên kệ hiện trên máy đọc. Catalog name shown on the reader."
+      },
+      "MAX_USERS": {
+        "description": "Số tài khoản tối đa (1 = chỉ mình bạn). Max accounts."
+      }
+    }
+  }
+}
